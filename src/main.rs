@@ -1,10 +1,12 @@
-use std::env;
 use std::process;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args = blog_generator::Args::parse_cli().unwrap_or_else(|e| {
+        eprintln!("error: {e}");
+        process::exit(1);
+    });
     if let Err(e) = blog_generator::run(&args) {
-        eprintln!("{e}");
+        eprintln!("error: {e}");
         process::exit(1);
     }
 }

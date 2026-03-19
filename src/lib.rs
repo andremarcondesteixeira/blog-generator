@@ -1,6 +1,6 @@
-pub fn run(args: &[String]) -> Result<(), String> {
-    if args.len() < 2 {
-        return Err("Usage: blog-generator <config-file>".to_string());
-    }
+mod args;
+pub use args::Args;
+
+pub fn run(_args: &Args) -> Result<(), String> {
     Ok(())
 }
