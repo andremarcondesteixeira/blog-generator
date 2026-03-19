@@ -16,7 +16,7 @@ impl Args {
     pub fn parse_cli() -> Result<Args, String> {
         let raw_args: Vec<String> = std::env::args().collect();
         if raw_args.len() < 2 {
-            return Err("Usage: blog-generator <config-file>".to_string());
+            return Err("Usage: blog-generator <absolute path to config file>".to_string());
         }
         Args::new(&raw_args[1])
     }
