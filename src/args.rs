@@ -1,5 +1,6 @@
 use std::path::{Path, PathBuf};
 
+#[derive(Debug)]
 pub struct Args {
     config_file: PathBuf,
 }
@@ -9,6 +10,12 @@ impl Args {
         let config_file: PathBuf = path.into();
         if !config_file.is_absolute() {
             return Err(format!("config file path must be absolute: {}", config_file.display()));
+        }
+        if config_file.extension().and_then(|e| e.to_str()) != Some("json") {
+            return Err(format!("config file must be a .json file: {}", config_file.display()));
+        }
+        if !config_file.exists() {
+            return Err(format!("config file does not exist: {}", config_file.display()));
         }
         Ok(Args { config_file })
     }
@@ -29,22 +36,44 @@ impl Args {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
 
     #[test]
     fn args_rejects_relative_config_path() {
-        let result = Args::new("relative/my_blog_config.json");
-        assert!(result.is_err());
+        let err = Args::new("relative/my_blog_config.json").unwrap_err();
+        assert!(err.contains("must be absolute"), "unexpected error: {err}");
     }
 
     #[test]
     fn args_accepts_absolute_config_path() {
+        let dir = std::env::temp_dir();
+        let path = dir.join("test_blog_config.json");
+        std::fs::write(&path, "{}").unwrap();
+
+        let args = Args::new(&path).unwrap();
+        assert_eq!(args.config_file(), path);
+
+        std::fs::remove_file(&path).unwrap();
+    }
+
+    #[test]
+    fn args_rejects_non_json_config_file() {
         let path = if cfg!(windows) {
-            "C:\\absolute\\my_blog_config.json"
+            "C:\\absolute\\my_blog_config.toml"
         } else {
-            "/absolute/my_blog_config.json"
+            "/absolute/my_blog_config.toml"
         };
-        let args = Args::new(path).unwrap();
-        assert_eq!(args.config_file(), PathBuf::from(path));
+        let err = Args::new(path).unwrap_err();
+        assert!(err.contains("must be a .json file"), "unexpected error: {err}");
+    }
+
+    #[test]
+    fn args_rejects_nonexistent_config_file() {
+        let path = if cfg!(windows) {
+            "C:\\nonexistent\\my_blog_config.json"
+        } else {
+            "/nonexistent/my_blog_config.json"
+        };
+        let err = Args::new(path).unwrap_err();
+        assert!(err.contains("does not exist"), "unexpected error: {err}");
     }
 }
