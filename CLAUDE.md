@@ -16,3 +16,4 @@ We follow strict **Red-Green-Refactor** (TDD), one step at a time.
 - Never skip steps or jump ahead, even if the next step seems obvious.
 - Always run the tests and show the output at each step.
 - Ask the user before moving to the next step — they drive the pace.
+- Make invalid states unrepresentable
