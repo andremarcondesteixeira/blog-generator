@@ -3,9 +3,8 @@ use std::process;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-
-    if args.len() < 2 {
-        eprintln!("Usage: blog-generator <config-file>");
+    if let Err(e) = blog_generator::run(&args) {
+        eprintln!("{e}");
         process::exit(1);
     }
 }
