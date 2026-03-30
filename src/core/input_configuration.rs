@@ -9,6 +9,13 @@ pub struct InputConfiguration {
     pub blogs: Vec<Blog>,
 }
 
+impl InputConfiguration {
+    /// Deserializes an InputConfiguration from a JSON string.
+    pub fn from_json(json: &str) -> Result<Self, String> {
+        serde_json::from_str(json).map_err(|e| e.to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -29,9 +36,15 @@ mod tests {
             ]
         }"#;
 
-        let config: InputConfiguration = serde_json::from_str(json).unwrap();
+        let config = InputConfiguration::from_json(json).unwrap();
 
         assert_eq!(config.blogs.len(), 1);
         assert_eq!(config.blogs[0].name, "My Blog");
+    }
+
+    #[test]
+    fn from_json_returns_error_as_string_on_invalid_json() {
+        let result: Result<InputConfiguration, String> = InputConfiguration::from_json("not json");
+        assert!(result.is_err());
     }
 }

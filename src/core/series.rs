@@ -16,6 +16,13 @@ pub struct Series {
     pub articles: Vec<Article>,
 }
 
+impl Series {
+    /// Deserializes a Series from a JSON string.
+    pub fn from_json(json: &str) -> Result<Self, String> {
+        serde_json::from_str(json).map_err(|e| e.to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,7 +50,7 @@ mod tests {
             ]
         }"#;
 
-        let series: Series = serde_json::from_str(json).unwrap();
+        let series = Series::from_json(json).unwrap();
 
         assert_eq!(series.name, "My Series");
         assert_eq!(series.input_folder, vec!["path", "to", "series"]);
@@ -51,5 +58,11 @@ mod tests {
         assert_eq!(series.articles.len(), 2);
         assert_eq!(series.articles[0].title, "First Article");
         assert_eq!(series.articles[1].update_date, Some("2026-04-01".to_string()));
+    }
+
+    #[test]
+    fn from_json_returns_error_as_string_on_invalid_json() {
+        let result: Result<Series, String> = Series::from_json("not json");
+        assert!(result.is_err());
     }
 }

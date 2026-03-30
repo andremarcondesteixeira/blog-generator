@@ -23,6 +23,13 @@ pub struct Blog {
     pub series: Vec<Series>,
 }
 
+impl Blog {
+    /// Deserializes a Blog from a JSON string.
+    pub fn from_json(json: &str) -> Result<Self, String> {
+        serde_json::from_str(json).map_err(|e| e.to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -60,7 +67,7 @@ mod tests {
             ]
         }"#;
 
-        let blog: Blog = serde_json::from_str(json).unwrap();
+        let blog = Blog::from_json(json).unwrap();
 
         assert_eq!(blog.name, "My Blog");
         assert_eq!(blog.input_folder, vec!["path", "to", "input"]);
@@ -71,5 +78,11 @@ mod tests {
         assert_eq!(blog.standalone_articles[0].title, "Standalone Article");
         assert_eq!(blog.series.len(), 1);
         assert_eq!(blog.series[0].name, "My Series");
+    }
+
+    #[test]
+    fn from_json_returns_error_as_string_on_invalid_json() {
+        let result: Result<Blog, String> = Blog::from_json("not json");
+        assert!(result.is_err());
     }
 }
