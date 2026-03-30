@@ -19,3 +19,7 @@ We follow strict **Red-Green-Refactor** (TDD), one step at a time.
 - Make invalid states unrepresentable
 - To increase the clarity of the codebase, prefer using long, descriptive names instead of short, concise ones
 - Write doc comments for everything
+
+## Git
+
+- Never commit on behalf of the user. The user handles all git commits themselves.
