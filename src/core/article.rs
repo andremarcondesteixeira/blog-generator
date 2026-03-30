@@ -1,15 +1,17 @@
 use serde::Deserialize;
 
+use super::date::Date;
+
 /// Represents an article as declared in the input JSON configuration.
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Article {
     /// The article title, also used for ordering after publication date.
     pub title: String,
-    /// The publication date in ISO 8601 format.
-    pub publication_date: String,
+    /// The publication date.
+    pub publication_date: Date,
     /// The date the article was last updated. None if never updated.
-    pub update_date: Option<String>,
+    pub update_date: Option<Date>,
     /// Path segments to the article source file, relative to the blog's input folder.
     pub source: Vec<String>,
     /// Free-form tags associated with this article.
@@ -40,8 +42,8 @@ mod tests {
         let article = Article::from_json(json).unwrap();
 
         assert_eq!(article.title, "My Article");
-        assert_eq!(article.publication_date, "2026-03-28");
-        assert_eq!(article.update_date, Some("2026-03-29".to_string()));
+        assert_eq!(article.publication_date, Date::from_year_month_day(2026, 3, 28).unwrap());
+        assert_eq!(article.update_date, Some(Date::from_year_month_day(2026, 3, 29).unwrap()));
         assert_eq!(article.source, vec!["path", "to", "article.html"]);
         assert_eq!(article.tags, vec!["Tag A", "Tag B"]);
     }

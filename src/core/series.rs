@@ -25,6 +25,7 @@ impl Series {
 
 #[cfg(test)]
 mod tests {
+    use crate::core::date::Date;
     use super::*;
 
     #[test]
@@ -57,7 +58,7 @@ mod tests {
         assert_eq!(series.tags, vec!["Series Tag"]);
         assert_eq!(series.articles.len(), 2);
         assert_eq!(series.articles[0].title, "First Article");
-        assert_eq!(series.articles[1].update_date, Some("2026-04-01".to_string()));
+        assert_eq!(series.articles[1].update_date, Some(Date::from_year_month_day(2026, 4, 1).unwrap()));
     }
 
     #[test]
