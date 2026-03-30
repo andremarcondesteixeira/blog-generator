@@ -1,2 +1,3 @@
-pub mod article;
 pub mod args;
+pub mod article;
+pub mod series;
