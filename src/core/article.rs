@@ -1,0 +1,41 @@
+use serde::Deserialize;
+
+/// Represents a standalone article as declared in the input JSON configuration.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Article {
+    /// The article title, also used for ordering after publication date.
+    pub title: String,
+    /// The publication date in ISO 8601 format.
+    pub publication_date: String,
+    /// The date the article was last updated. None if never updated.
+    pub update_date: Option<String>,
+    /// Path segments to the article source file, relative to the blog's input folder.
+    pub source: Vec<String>,
+    /// Free-form tags associated with this article.
+    pub tags: Vec<String>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn deserializes_standalone_article_with_all_fields_from_json() {
+        let json = r#"{
+            "title": "My Article",
+            "publicationDate": "2026-03-28",
+            "updateDate": "2026-03-29",
+            "source": ["path", "to", "article.html"],
+            "tags": ["Tag A", "Tag B"]
+        }"#;
+
+        let article: Article = serde_json::from_str(json).unwrap();
+
+        assert_eq!(article.title, "My Article");
+        assert_eq!(article.publication_date, "2026-03-28");
+        assert_eq!(article.update_date, Some("2026-03-29".to_string()));
+        assert_eq!(article.source, vec!["path", "to", "article.html"]);
+        assert_eq!(article.tags, vec!["Tag A", "Tag B"]);
+    }
+}
