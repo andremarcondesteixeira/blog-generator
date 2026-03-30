@@ -20,6 +20,12 @@ We follow strict **Red-Green-Refactor** (TDD), one step at a time.
 - To increase the clarity of the codebase, prefer using long, descriptive names instead of short, concise ones
 - Write doc comments for everything
 
+## Code Organization
+
+- Each struct, enum, or significant type goes in its own file — avoid large source files.
+- `src/core/` contains the functional core: pure functions, no I/O.
+- `src/io/` contains the imperative shell: all file system access and side effects.
+
 ## Git
 
 - Never commit on behalf of the user. The user handles all git commits themselves.
