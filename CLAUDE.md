@@ -25,6 +25,8 @@ We follow strict **Red-Green-Refactor** (TDD), one step at a time.
 - Each struct, enum, or significant type goes in its own file — avoid large source files.
 - `src/core/` contains the functional core: pure functions, no I/O.
 - `src/io/` contains the imperative shell: all file system access and side effects.
+- Public types must never expose types from third-party dependencies. Wrap them in custom types instead.
+- Always keep an empty line at the end of all files.
 
 ## Git
 
