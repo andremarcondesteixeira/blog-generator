@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use super::date::Date;
+use crate::core::date::Date;
 
 /// Represents an article as declared in the input JSON configuration.
 #[derive(Deserialize)]
