@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
-use super::article::Article;
-use super::series::Series;
+use crate::io::input::article::Article;
+use crate::io::input::series::Series;
 
 /// Represents a blog as declared in the input JSON configuration.
 #[derive(Deserialize)]

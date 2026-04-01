@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use super::article::Article;
+use crate::io::input::article::Article;
 
 /// Represents a series of related articles as declared in the input JSON configuration.
 #[derive(Deserialize)]

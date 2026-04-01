@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use super::blog::Blog;
+use crate::io::input::blog::Blog;
 
 /// Represents the root structure of the input JSON configuration file.
 #[derive(Deserialize)]
