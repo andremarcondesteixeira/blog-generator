@@ -68,7 +68,7 @@ The input file uses the following JSON structure:
 ### Path conventions
 
 - All paths are arrays of segments, making them platform-independent.
-- `inputFolder` and `outputFolder` on the blog are the root references.
+- `inputFolder` and `outputFolder` on the blog are relative to the directory containing the JSON configuration file.
 - `articleTemplate` and `indexTemplate` are relative to the blog's `inputFolder`.
 - Standalone article `source` paths are relative to the blog's `inputFolder`.
 - Series `inputFolder` is relative to the blog's `inputFolder`.
