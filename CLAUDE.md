@@ -17,6 +17,7 @@ We follow strict **Red-Green-Refactor** (TDD), one step at a time.
 - Always run the tests and show the output at each step.
 - Ask the user before moving to the next step — they drive the pace.
 - Make invalid states unrepresentable
+- Avoid primitive obsession: when a value has domain meaning and constraints (e.g., a URL path, a date), wrap it in a dedicated type that validates on construction rather than passing raw `String`, `i32`, etc.
 - To increase the clarity of the codebase, prefer using long, descriptive names instead of short, concise ones
 - Write doc comments for everything
 
